@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
+        http // коммент для разбора
                 .authorizeRequests()
                 //.antMatchers("/api", "/authenticated").hasRole("ADMIN")    // только для ADMIN
                 .antMatchers("/api","/authenticated").authenticated() // только идентиф. пользователи
