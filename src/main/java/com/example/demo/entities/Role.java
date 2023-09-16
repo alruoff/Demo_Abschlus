@@ -1,24 +1,25 @@
 package com.example.demo.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Data
+@NoArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    public Role() {
-    }
-
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return "Role{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

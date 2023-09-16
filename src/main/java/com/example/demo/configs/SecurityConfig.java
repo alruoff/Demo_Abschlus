@@ -1,5 +1,6 @@
 package com.example.demo.configs;
 import com.example.demo.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,27 +11,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
-    @Autowired
-    public void setUserDetailsService(UserService userService) {
-        this.userService = userService;
-    }
+
+    private final UserService userService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
                 .authorizeRequests()
-                .antMatchers("/", "/registration").hasRole("USER")    // только для USER
-                .antMatchers("/authenticated/**").authenticated() // только идентиф. пользователи
-                .antMatchers("/view").hasAnyRole("MANAGER", "USER")
-                .antMatchers("/","/admin/**","/newcustomer").hasAnyRole("ADMIN","SUPERADMIN") // хотя бы одну из этих ролей
-                .antMatchers("/profile/**").authenticated() // в профайлы заходят только идентиф. пользователи
-                .antMatchers("/users").authenticated()
-                .anyRequest().permitAll() // все прочие запросы общедоступны
+                //.antMatchers("/api", "/authenticated").hasRole("ADMIN")    // только для ADMIN
+                .antMatchers("/api","/authenticated").authenticated() // только идентиф. пользователи
+                //.antMatchers("/view").hasAnyRole("USER", "MANAGER", "ADMIN")
+                .antMatchers( "/neworder").hasAnyRole("MANAGER")
+                .antMatchers("/newcustomer").hasAnyRole("ADMIN") // хотя бы одну из этих ролей
+               // .antMatchers("/**").authenticated() // заходят только идентиф. пользователи
+                .antMatchers("/users").hasAnyRole("USER")
+                //.anyRequest().permitAll() // все прочие запросы общедоступны
                 .and()
                 //.httpBasic() // у нас будет basic-authentication
-                .formLogin()// стандартная форма для логина .loginPage("/login")
+                .formLogin()//.loginPage("/login") стандартная форма для логина .loginPage("/login")
                 .and()
                 .logout().logoutSuccessUrl("/"); // после logout попадаем в корень
 
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setPasswordEncoder( passwordEncoder() );
+        authProvider.setPasswordEncoder(passwordEncoder());//
         authProvider.setUserDetailsService(userService);
         return authProvider;
     }

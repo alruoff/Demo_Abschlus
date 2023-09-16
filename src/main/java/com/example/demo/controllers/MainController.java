@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,33 +11,16 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class MainController {
+
     private final UserService userService;
-    public MainController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/")
-    public String homePage() { return "home"; }
-    @GetMapping("/registration")
-    public String registrationPage(Principal principal) {
-        return "registration: " + principal.getName();
-    }
+    public String homePage(Principal principal) { return "Номе - current login is: " + principal.getName(); }
     @GetMapping("/authenticated")
-    public String pageForAuthenticatedUsers(Principal principal) {
-        return "secured part of web service " + principal.getName();
-    }
-    @GetMapping("/unsecured")
-    public String usecuredPage() { return "unsecured"; }
-    @GetMapping("/auth_page")
-    public String authenticatedPage() {
-        return "authenticated";
-    }
+    public String AuthPage(Principal principal) { return "Auth - current login is: " + principal.getName(); }
 
-    @GetMapping("/admin")
-    public String adminPage() {
-        return "admin";
-    }
     @GetMapping("/users")
     public List<User> findAll(Model model){
         List<User> usrs = userService.getAllUsers();

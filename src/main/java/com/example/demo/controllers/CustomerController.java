@@ -18,13 +18,15 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping ("/newcustomer")
-    public Customer createNewCustomer(  @RequestParam(name="fullname") String fullname,
+    public String createNewCustomer(  @RequestParam(name="fullname") String fullname,
                                         @RequestParam(name="login") String login,
                                         @RequestParam(name="email") String email,
                                         @RequestParam(name="role") String role ) {
 
        // User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("unable to find user by username: " + principal.getName()));
 
-        return customerService.createNewCustomer(fullname, login ,email, role);
+        customerService.createNewCustomer(fullname, login ,email, role);
+
+        return "OK";
     }
 }

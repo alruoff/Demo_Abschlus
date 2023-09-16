@@ -42,12 +42,18 @@ public class CustomerService {
 
             User user = new User(login, pe.encode(login), Arrays.asList(role));
 
-            Customer customer = new Customer(fullName, false, LocalDateTime.now(), LocalDateTime.now(), email, role.getName(), user);
+            Customer customer = new Customer(fullName, false,  email, role.getName(), user);
 
-            customerRepository.save(customer);
+            user.setCustomer(customer);
+
+            customerRepository.saveAndFlush(customer);
 
             return customer;
         }
 
+    }
+
+    public void saveCustomer(Customer customer) {
+        customerRepository.saveAndFlush(customer);
     }
 }

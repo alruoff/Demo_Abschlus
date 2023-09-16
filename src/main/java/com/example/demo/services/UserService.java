@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.entities.Customer;
 import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.UserRepository;
@@ -39,4 +40,5 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAllUsers() { return userRepository.findAll(); }
+
 }
