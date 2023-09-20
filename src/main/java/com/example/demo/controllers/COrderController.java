@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.entities.User;
 import com.example.demo.services.COrderService;
 import com.example.demo.services.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ROLE_MANAGER')")
 public class COrderController {
 
     private final COrderService corderService;

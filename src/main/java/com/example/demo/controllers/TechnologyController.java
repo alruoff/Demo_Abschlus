@@ -16,14 +16,16 @@ public class TechnologyController {
 
     private final TechnoService technoService;
     private final UserService userService;
+
     @PostMapping("/newtechnology")
-    public String createNewTechnology(@RequestParam(name="technoName") String technoName,
-                                      @RequestParam(name="Description") String description,
+    public String createNewTechnology(@RequestParam(name = "technoName") String technoName,
+                                      @RequestParam(name = "Description") String description,
                                       Principal principal) {
 
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("unable to find user by username: " + principal.getName()));
 
-        technoService.createNewTechno(technoName, description , user.getCustomer() );
+        technoService.createNewTechno(technoName, description, user.getCustomer());
 
         return "OK";
+    }
 }

@@ -22,6 +22,7 @@ public class CustomerService {
     private final UserService userService;
     private final CustomerRepository customerRepository;
     private final RoleService roleService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Customer createNewCustomer(String fullName, String login, String email, String roleString) {
 
@@ -36,17 +37,17 @@ public class CustomerService {
         }
         else { //только, если логин уникален
 
-            BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
-
             Role role = roleService.getUserRole("ROLE_" + roleString);
 
-            User user = new User(login, pe.encode(login), Arrays.asList(role));
+            User user = new User(login, bCryptPasswordEncoder.encode(login), Arrays.asList(role));
 
             Customer customer = new Customer(fullName, false,  email, role.getName(), user);
 
             user.setCustomer(customer);
 
             customerRepository.saveAndFlush(customer);
+
+            userService.loadUserByUsername(login);
 
             return customer;
         }

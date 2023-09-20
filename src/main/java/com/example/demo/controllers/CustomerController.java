@@ -6,6 +6,7 @@ import com.example.demo.services.CustomerService;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class CustomerController {
 
     private final CustomerService customerService;
