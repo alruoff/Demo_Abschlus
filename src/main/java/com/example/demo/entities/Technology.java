@@ -21,24 +21,25 @@ public class Technology {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "name", unique = true, nullable = false)
     private String name; // название технологии операций
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Customer author; // автор технологии
-
 
     @CreationTimestamp
     private LocalDateTime created_at; // когда создана
 
     @UpdateTimestamp
     private LocalDateTime updated_at; // когда вносились изменения
-    private Boolean is_active; // включить / выключить
-    @Column(columnDefinition = "text")
+
+    @Column(name = "description", columnDefinition = "text")
     private String description; // описание типового ТЗ в виде текста
 
-    @OneToMany (cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<COrder> listOfOrders;
 
+    private Boolean is_active;
     public Technology(String name, String description, Customer author) {
 
         this.name = name;
@@ -49,5 +50,18 @@ public class Technology {
         this.description = description;
         this.listOfOrders = new ArrayList<>();
 
+    }
+
+    public void addOrderToOrdersList(COrder order) {
+        this.listOfOrders.add(order);
+    }
+
+    public void clearOrdersList() {
+        this.listOfOrders.clear();
+    }
+
+    public void setOff() {
+        this.updated_at = LocalDateTime.now();
+        this.is_active = false;
     }
 }

@@ -10,5 +10,4 @@ import javax.swing.text.html.Option;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     Role findByName(String name);
-    String findRoleByName(Role role);
 }

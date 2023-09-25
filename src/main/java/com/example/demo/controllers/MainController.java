@@ -21,10 +21,14 @@ public class MainController {
     @GetMapping("/authenticated")
     public String AuthPage(Principal principal) { return "Auth - current login is: " + principal.getName(); }
 
-    @GetMapping("/users")
-    public List<User> findAll(Model model){
+    @GetMapping("/usersname")
+    public String findAll(Model model) {
+
         List<User> usrs = userService.getAllUsers();
+
         model.addAttribute("users", usrs);
-        return usrs;
+
+        //List<String> list = userService.getAllUsers().forEach();
+        return usrs.get(1).getLogin();
     }
 }

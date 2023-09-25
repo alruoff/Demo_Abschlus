@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -24,22 +25,30 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByLogin(username);
-    }
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-        org.springframework.security.core.userdetails.User u = new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
-        return u;
+
+        Optional<User> userOpt = (Optional<User>) findByUsername(username);
+
+        if (userOpt.isPresent()) { // если ссылка не null
+            return new org.springframework.security.core.userdetails.User(
+                    userOpt.get().getLogin(),
+                    userOpt.get().getPassword(),
+                    mapRolesToAuthorities(userOpt.get().getRoles()) );
+        } else return null;
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    public List<User> getAllUsers() { return userRepository.findAll(); }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
+    public Optional<User> findByUsername(String userName) { // поиск user по имени
+
+        return userRepository.findByLogin(userName);
+    }
 }

@@ -8,6 +8,8 @@ import com.example.demo.repositories.TechnoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class TechnoService {
@@ -16,10 +18,24 @@ public class TechnoService {
 
     public String createNewTechno(String name,String desc, Customer cust) {
 
-        Technology tech = new Technology(name,desc, cust);
+        Technology techno = new Technology(name,desc, cust);
 
-        technoRepository.saveAndFlush(tech);
+        technoRepository.saveAndFlush(techno);
 
         return  "OK";
+    }
+
+    public Technology getTechnoByName(String technoName) {
+        return technoRepository.getTechnologyByName(technoName);
+    }
+
+    public Technology getTechnoById(Long techId) {
+        return technoRepository.getTechnologyById(techId);
+    }
+
+    public void save(Technology techno) {
+
+        techno.setUpdated_at(LocalDateTime.now());
+        technoRepository.saveAndFlush(techno);
     }
 }

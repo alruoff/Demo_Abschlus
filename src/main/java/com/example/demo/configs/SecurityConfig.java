@@ -22,8 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http // коммент для разбора
                 .authorizeRequests()
-                .antMatchers("/", "/").permitAll()   // доступ всем
-                .antMatchers("/api/**","/authenticated").authenticated() // только идентиф. пользователи
+                .antMatchers("/", "/login").permitAll()   // доступ всем
+                .antMatchers("/api/**").authenticated() // только идентиф. пользователи
                 //.antMatchers("/view").hasAnyRole("USER", "MANAGER", "ADMIN")
                 //.antMatchers( "/neworder").hasRole("MANAGER")
                 //.antMatchers("/newcustomer").hasRole("ADMIN")
@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/users").hasAnyRole("USER")
                 //.anyRequest().permitAll() // все прочие запросы общедоступны
                 .and()
-                //.httpBasic() // у нас будет basic-authentication
+                //.httpBasic() // будет basic-authentication
                 .formLogin()//.loginPage("/login") стандартная форма для логина .loginPage("/login")
                 .and()
                 .logout().logoutSuccessUrl("/login"); // после logout попадаем в корень

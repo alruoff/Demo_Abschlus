@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@RequestMapping("/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    @PostMapping ("/newcustomer")
+    @PostMapping ("/new")
     public String createNewCustomer(  @RequestParam(name="fullname") String fullname,
                                         @RequestParam(name="login") String login,
                                         @RequestParam(name="email") String email,

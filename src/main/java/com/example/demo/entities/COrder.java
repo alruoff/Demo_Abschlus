@@ -25,7 +25,7 @@ public class COrder {
     @ManyToOne (cascade = CascadeType.ALL)
     private Customer customer; // ведущий менеджер заказа
 
-    @Column(name = "orderVars", columnDefinition = "text")
+    @Column(name = "variables", columnDefinition = "text")
     private String info; // набор переменных параметров и их значений для этого заказа
 
     private Boolean is_active;
@@ -47,6 +47,11 @@ public class COrder {
         this.updated_at = LocalDateTime.now();
     }
 
+    public void setTechno(Technology techno) {
+
+        this.updated_at = LocalDateTime.now();
+        this.techno = techno;
+    }
 }
 
 /*   @OneToOne(fetch = FetchType.EAGER)
