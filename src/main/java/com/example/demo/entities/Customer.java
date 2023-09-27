@@ -10,6 +10,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Класс описывающий сущность Поьльзователь системы
+ */
 @Data
 @Entity
 @NoArgsConstructor
@@ -18,7 +22,7 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long id;
-    private String fullName; // иное, чем логин. Отдельное имя в системе
+    private String fullName; // иное, чем логин. Отдельное доп. имя в системе
 
     @CreationTimestamp
     private LocalDateTime created_at;
@@ -27,7 +31,7 @@ public class Customer {
 
     private Boolean is_blocked;
     private String email;
-    private String position;
+    private String position; // роль сотрудника в системе
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private User user;
@@ -75,10 +79,8 @@ public class Customer {
 
 
     @OneToOne(mappedBy = "customer", cascade =  // есть все, кроме REMOVE
-    {
-           CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-           CascadeType.REFRESH
-    })
+    { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+
     private User user;
 
  */

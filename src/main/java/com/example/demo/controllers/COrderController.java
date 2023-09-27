@@ -1,12 +1,12 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.COrder;
+
 import com.example.demo.entities.Customer;
 import com.example.demo.entities.User;
+import com.example.demo.entities.sets.BaseSet;
 import com.example.demo.services.COrderService;
 import com.example.demo.services.UserService;
-import com.example.demo.entities.sets.Variation;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.json.simple.parser.ParseException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +30,11 @@ public class COrderController {
 
         User user = getUser(principal);
 
-        corderService.createNewOrder (user.getCustomer(), orderName, info );
+        corderService.createNewOrder(user.getCustomer(), orderName, info);
 
         return "OK";
     }
+
     @GetMapping("/orders")
     public List<String> getAllOrders(Principal principal) {
 
@@ -41,21 +42,26 @@ public class COrderController {
 
         Customer cust = user.getCustomer();
 
-        return corderService.getAllCOrders(cust).stream().map(e->{ return "Order # " + e.getId()+" : " + e.getName(); }).collect(Collectors.toList());
+        return corderService.getAllCOrders(cust).stream().map(e -> {
+            return "Order # " + e.getId() + " : " + e.getName();
+        }).collect(Collectors.toList());
     }
 
     private User getUser(Principal principal) {
 
         return userService.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("unable to find user by username: " + principal.getName()));
     }
+
     @GetMapping("/type/{id}")
-    public String getOrderType(@PathVariable Long id) throws JsonProcessingException {
+    public String getOrderType(@PathVariable Long id) throws ParseException {
 
-        COrder order = corderService.getOrderById(id);
+        return corderService.getOrderType(id);
+    }
 
-        String type = order.getInfo();
+    @GetMapping("/vars/{id}")
+    public BaseSet getOrderVars(@PathVariable Long id) throws ParseException {
 
-        return type;
+        return corderService.getOrderVars(id);
     }
 
 }

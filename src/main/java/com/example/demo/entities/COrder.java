@@ -1,5 +1,4 @@
 package com.example.demo.entities;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -10,6 +9,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+/**
+ * Класс описывающий сущность Заказ
+ */
 @Data
 @NoArgsConstructor
 @ToString
@@ -26,19 +28,20 @@ public class COrder {
     private Customer customer; // ведущий менеджер заказа
 
     @Column(name = "variables", columnDefinition = "text")
-    private String info; // набор переменных параметров и их значений для этого заказа
+    private String info; // набор переменных параметров и их значений для этого заказа в формате JSON
 
-    private Boolean is_active;
+    private Boolean is_active; // заказ можно деактивировать до окончательного уточнения ТЗ, например
 
     @CreationTimestamp
-    private LocalDateTime created_at;
+    private LocalDateTime created_at; // дата создания Заказа
     @UpdateTimestamp
-    private LocalDateTime updated_at;
+    private LocalDateTime updated_at; // дата внесения последних изменений в Заказ
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private Technology techno; // технология, по которой будет обрабатываться заказ
 
     public COrder(String name, Customer customer, String info, Boolean is_active) {
+
         this.name = name;
         this.customer = customer;
         this.info = info;
@@ -54,9 +57,4 @@ public class COrder {
     }
 }
 
-/*   @OneToOne(fetch = FetchType.EAGER)
-     @JoinTable(name = "technology",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id"))
-    private Technology technology; */
 

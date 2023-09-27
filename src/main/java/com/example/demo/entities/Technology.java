@@ -36,7 +36,7 @@ public class Technology {
     @Column(name = "description", columnDefinition = "text")
     private String description; // описание типового ТЗ в виде текста
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private List<COrder> listOfOrders;
 
     private Boolean is_active;
