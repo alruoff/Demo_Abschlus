@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -63,5 +64,14 @@ public class Technology {
     public void setOff() {
         this.updated_at = LocalDateTime.now();
         this.is_active = false;
+    }
+
+    @Override
+    public String toString() {
+        return "Technology{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

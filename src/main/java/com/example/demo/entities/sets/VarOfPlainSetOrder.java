@@ -7,7 +7,7 @@ import lombok.Data;
  */
 
 @Data
-public class VarOfPlainSet extends BaseSet {
+public class VarOfPlainSetOrder extends OrderBaseSet {
 
     public String orient; // вертикальная или горизонтальная
     public String mod; // цветовая модель для печати 4+0 или 4+4

@@ -2,9 +2,9 @@ package com.example.demo.services;
 
 import com.example.demo.entities.COrder;
 import com.example.demo.entities.Customer;
-import com.example.demo.entities.sets.BaseSet;
-import com.example.demo.entities.sets.VarOfBrochureSet;
-import com.example.demo.entities.sets.VarOfPlainSet;
+import com.example.demo.entities.sets.OrderBaseSet;
+import com.example.demo.entities.sets.VarOfBrochureSetOrder;
+import com.example.demo.entities.sets.VarOfPlainSetOrder;
 import com.example.demo.repositories.COrderRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -61,19 +61,19 @@ public class COrderService {
         return (String) root.get("type");
     }
 
-    public BaseSet getOrderVars(Long id) throws ParseException {
+    public OrderBaseSet getOrderVars(Long id) throws ParseException {
 
         COrder order = corderRepository.getOrderById(id);
 
         Gson gson = new Gson();
 
-        BaseSet set;
+        OrderBaseSet set;
 
         if(getOrderType(id).equalsIgnoreCase("Брошюра")) {
-            set = new VarOfBrochureSet();
+            set = new VarOfBrochureSetOrder();
         }
         else  if(getOrderType(id).equalsIgnoreCase("Листовка")) {
-            set = new VarOfPlainSet();
+            set = new VarOfPlainSetOrder();
         }
         else return null;
 

@@ -3,7 +3,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Customer;
 import com.example.demo.entities.User;
-import com.example.demo.entities.sets.BaseSet;
+import com.example.demo.entities.sets.OrderBaseSet;
 import com.example.demo.services.COrderService;
 import com.example.demo.services.UserService;
 import org.json.simple.parser.ParseException;
@@ -59,7 +59,7 @@ public class COrderController {
     }
 
     @GetMapping("/vars/{id}")
-    public BaseSet getOrderVars(@PathVariable Long id) throws ParseException {
+    public OrderBaseSet getOrderVars(@PathVariable Long id) throws ParseException {
 
         return corderService.getOrderVars(id);
     }

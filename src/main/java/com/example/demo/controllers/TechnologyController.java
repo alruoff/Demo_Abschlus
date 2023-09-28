@@ -1,12 +1,14 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.COrder;
+import com.example.demo.entities.sets.DestrictBase;
 import com.example.demo.entities.Technology;
 import com.example.demo.entities.User;
 import com.example.demo.services.COrderService;
 import com.example.demo.services.TechnoService;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -101,4 +103,13 @@ public class TechnologyController {
         }
         else return String.format("Technology %s is still active or not exist.", techno.getName());
     }
+
+    @GetMapping("/vars/{techId}")
+
+    public DestrictBase getInfo(@PathVariable Long techId) throws ParseException {
+
+        return technoService.getTechnoVars(techId);
+    }
+
+
 }

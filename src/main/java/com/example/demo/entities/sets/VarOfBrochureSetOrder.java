@@ -7,7 +7,7 @@ import lombok.Data;
  */
 
 @Data
-public class VarOfBrochureSet extends BaseSet {
+public class VarOfBrochureSetOrder extends OrderBaseSet {
 
     public String orient; // вертикальная или горизонтальная
     public int amBlock; // кол-во полос блок
