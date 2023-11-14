@@ -1,10 +1,10 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.COrder;
+import com.example.demo.entities.Order;
 import com.example.demo.entities.sets.DestrictBase;
 import com.example.demo.entities.Technology;
 import com.example.demo.entities.User;
-import com.example.demo.services.COrderService;
+import com.example.demo.services.OrderService;
 import com.example.demo.services.TechnoService;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.Optional;
 
+/**
+ * Работаем с технологией, доступ только у Технолога (ROLE_TECHNOMAN)
+ */
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ROLE_TECHNOMAN')") // доступно для технолога
@@ -23,8 +26,15 @@ public class TechnologyController {
 
     private final TechnoService technoService;
     private final UserService userService;
-    private final COrderService corderService;
+    private final OrderService orderService;
 
+    /**
+     *
+     * @param technoName Имя создаваемой технологии
+     * @param description Описание в виде JSON
+     * @param principal текщий пользователь
+     * @return
+     */
     @PostMapping("/create/{technoName}")
     public String createTechnology(@PathVariable String technoName,
                                       @RequestParam(name = "Description") String description,
@@ -38,6 +48,8 @@ public class TechnologyController {
         } else return String.format("ERROR - New technology %s was not created.", technoName );
 
     }
+
+    // позволяеит технологию временно деактивировать
     @PutMapping("/setoff/{techId}")
 
     public String setTechnologyOff(@PathVariable Long techId)
@@ -55,6 +67,7 @@ public class TechnologyController {
         else return String.format("Technology %d is not exist", techno.getId());
     }
 
+    // позволяеит технологию активировать
     @PutMapping("/seton/{techId}")
 
     public String setTechnologyOn(@PathVariable Long techId)
@@ -71,18 +84,26 @@ public class TechnologyController {
         }
         else return String.format("Technology %d is not exist", techno.getId());
     }
+
+    /**
+     * Устанавливает взаимосвязь между Заказом и Технологией (n:1)
+     * @param techId - идент. Технологии
+     * @param orderId - идент. Заказа
+     * @param principal - тек. пользователь
+     * @return
+     */
     @PutMapping("/set")
     public String setTechnology(@RequestParam(name = "TechID") Long techId,
                                 @RequestParam(name = "OrderID") Long orderId,
                                 Principal principal) {
 
-        COrder order = corderService.getOrderById(orderId);
+        Order order = orderService.getOrderById(orderId);
         Technology techno = technoService.getTechnoById(techId);
 
         if ( techno.getIs_active() ) {
             order.setTechno(techno);
             techno.addOrderToOrdersList(order);
-            corderService.saveOrder(order);
+            orderService.saveOrder(order);
             return String.format("OK - Technology %d::%s for the order %d::%s was set.", techno.getId(), techno.getName(), order.getId(), order.getName());
         }
         else return String.format("Technology %s is inactive now.", techno.getName());
@@ -104,6 +125,12 @@ public class TechnologyController {
         else return String.format("Technology %s is still active or not exist.", techno.getName());
     }
 
+    /**
+     * Возвращает объект с набором переменных для заданной технологии.
+     * @param techId
+     * @return
+     * @throws ParseException - не получилось распознать набор параметров
+     */
     @GetMapping("/vars/{techId}")
 
     public DestrictBase getInfo(@PathVariable Long techId) throws ParseException {

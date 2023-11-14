@@ -28,7 +28,7 @@ public class CustomerService {
 
         if(userService.findByUsername(login).isPresent() == true) {
 
-            try { // выбрасываю ексепшн
+            try { // выбрасываем исключение
                 throw new LoginUniqException("введённый логин пользователя должен быть уникальным");
             } catch (LoginUniqException e) {
                 throw new RuntimeException(e);

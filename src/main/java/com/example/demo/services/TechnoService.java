@@ -48,24 +48,12 @@ public class TechnoService {
 
         Technology techno = technoRepository.getTechnologyById(id);
 
-        String info = techno.getDescription(); // получили JSON с параметрами технологии
+        String info = techno.getDescription(); // получили строку с параметрами данной технологии
 
         Gson gson = new Gson();
 
-        DestrictBase db = gson.fromJson(info, DestrictBase.class); // получили заполненный переменными класс
-
-        Map<String,OperationBase> operationMap = new HashMap<>();
-
-        OperationBase oB = new OperationB("700x1000");
-        OperationBase oA = new OperationA("640x900");
-
-
-
-        operationMap.put("СБМ", oB );
-        operationMap.put("Переплётный", oA );
-
-        OperationBase op = operationMap.get(db.getParts().get(2));
-
-        return db;
+        return gson.fromJson(info, DestrictBase.class); // получили заполненный переменными объект к Технологии
     }
+
 }
+

@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @NoArgsConstructor
-public class Operation implements OperationBase {
+public class OperationC implements OperationBase {
 
     @Id
     @GeneratedValue
     private Long id;
+    private  String  name; // имя операции
     private LocalDateTime datum; // дата когда заказ выполняется
     private String sizeString; // формат работы
     private Integer amountOfOperation; // кол-во операций
@@ -23,4 +24,7 @@ public class Operation implements OperationBase {
 
     private String info; // прочая информация от технолога, плановая скорость или т.п.
 
+    public OperationC(String name) {
+        this.name = name;
+    }
 }

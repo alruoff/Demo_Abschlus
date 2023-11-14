@@ -16,14 +16,19 @@ public class OperationA implements OperationBase {
     @Id
     @GeneratedValue
     private Long id;
-    private LocalDateTime datum; // дата когда заказ выполняется
+    private  String  name; // имя участка
+    private String secondName; // назначенное имя участка
+    private LocalDateTime planDate; // дата когда заказ запланирован
+
     private String sizeString; // формат работы
     private Integer amountOfOperation; // кол-во операций
     private Integer addAmount; // дополнительно для послед. операций
 
-    private String info; // прочая информация от технолога, плановая скорость или т.п.
+    private Double planTime; // запланированная длительность операции в часах
+    private Double factTime; // фактическая длительность операции в часах
 
-    public OperationA(String sizeString) {
-        this.sizeString = sizeString;
+    public OperationA(String name) {
+        this.name = name;
     }
+
 }

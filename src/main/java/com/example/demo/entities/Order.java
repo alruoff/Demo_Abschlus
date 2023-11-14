@@ -7,16 +7,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 /**
- * Класс описывающий сущность Заказ
+ * Класс, описывающий сущность Заказ на производстве
  */
 @Data
 @NoArgsConstructor
 @ToString
 @Entity
-public class COrder {
+@Table(name = "corder")
+public class Order {
 
     @Id
     @GeneratedValue
@@ -40,7 +40,7 @@ public class COrder {
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private Technology techno; // технология, по которой будет обрабатываться заказ
 
-    public COrder(String name, Customer customer, String info, Boolean is_active) {
+    public Order(String name, Customer customer, String info, Boolean is_active) {
 
         this.name = name;
         this.customer = customer;

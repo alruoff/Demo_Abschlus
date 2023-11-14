@@ -1,11 +1,11 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.COrder;
+import com.example.demo.entities.Order;
 import com.example.demo.entities.Customer;
 import com.example.demo.entities.sets.OrderBaseSet;
 import com.example.demo.entities.sets.VarOfBrochureSetOrder;
 import com.example.demo.entities.sets.VarOfPlainSetOrder;
-import com.example.demo.repositories.COrderRepository;
+import com.example.demo.repositories.OrderRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -18,39 +18,40 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class COrderService {
+public class OrderService {
 
-    private final COrderRepository corderRepository;
+    private final OrderRepository orderRepository;
+    private final TechnoService technoService;
 
-    public COrder createNewOrder(Customer customer, String name, String info) {
+    public Order createNewOrder(Customer customer, String name, String info) {
 
-        COrder corder = new COrder(name, customer, info, true);
+        Order corder = new Order(name, customer, info, true);
 
         customer.getListOfCorders().add(corder); // новый заказ подцепился в список заказов
 
         // customerRepository.saveAndFlush(customer);
 
-        corderRepository.saveAndFlush(corder);
+        orderRepository.saveAndFlush(corder);
 
         return corder;
     }
 
-    public List<COrder> getAllCOrders(Customer customer) {
+    public List<Order> getAllCOrders(Customer customer) {
 
-        return corderRepository.findAllByCustomer(customer);
+        return orderRepository.findAllByCustomer(customer);
     }
 
-    public COrder getOrderById(Long orderId) {
-        return corderRepository.getOrderById(orderId);
+    public Order getOrderById(Long orderId) {
+        return orderRepository.getOrderById(orderId);
     }
 
-    public void saveOrder(COrder corder) {
-        corderRepository.saveAndFlush(corder);
+    public void saveOrder(Order corder) {
+        orderRepository.saveAndFlush(corder);
     }
 
     public String getOrderType(Long id) throws ParseException {
 
-        COrder order = corderRepository.getOrderById(id);
+        Order order = orderRepository.getOrderById(id);
 
         if (order == null) return "ERROR - wrong Order";
 
@@ -63,7 +64,7 @@ public class COrderService {
 
     public OrderBaseSet getOrderVars(Long id) throws ParseException {
 
-        COrder order = corderRepository.getOrderById(id);
+        Order order = orderRepository.getOrderById(id);
 
         Gson gson = new Gson();
 
@@ -79,5 +80,6 @@ public class COrderService {
 
         return gson.fromJson(order.getInfo(), set.getClass());
     }
+
 
 }

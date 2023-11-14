@@ -16,6 +16,7 @@ public class OperationB implements OperationBase {
     @Id
     @GeneratedValue
     private Long id;
+    private  String  name; // имя операции
     private LocalDateTime datum; // дата когда заказ выполняется
     private String sizeString; // формат работы
     private Integer amountOfOperation; // кол-во операций
@@ -23,7 +24,7 @@ public class OperationB implements OperationBase {
 
     private String info; // прочая информация от технолога, плановая скорость или т.п.
 
-    public OperationB(String sizeString) {
-        this.sizeString = sizeString;
+    public OperationB(String name) {
+        this.name = name;
     }
 }

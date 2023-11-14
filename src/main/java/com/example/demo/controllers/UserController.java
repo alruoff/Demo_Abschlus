@@ -15,12 +15,16 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Позволяет посмотреть текущего пользователя
+     * @param principal
+     * @return
+     */
     @GetMapping("/view")
     public String viewTestPage(Principal principal) {
 
-        //Authentication a = SecurityContextHolder.getContext().getAuthentication();
         if(principal == null) return "Need System to start";
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("unable to find user by username: " + principal.getName()));
-        return "authenticated: " + user.getLogin(); // + " : " + customer.getEmail()
+        return "authenticated: " + user.getLogin() +" as " + user.getCustomer().getPosition();
     }
 }

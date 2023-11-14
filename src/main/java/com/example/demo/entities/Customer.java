@@ -2,7 +2,6 @@ package com.example.demo.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -38,7 +37,7 @@ public class Customer {
 
     @OneToMany( cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
-    private List<COrder> listOfCorders;
+    private List<Order> listOfCorders;
 
     @OneToMany( cascade = CascadeType.ALL)
     @JoinColumn(name = "techno_id")

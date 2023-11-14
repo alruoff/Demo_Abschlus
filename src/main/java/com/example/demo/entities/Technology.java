@@ -3,7 +3,6 @@ package com.example.demo.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -38,7 +37,7 @@ public class Technology {
     private String description; // описание типового ТЗ в виде текста
 
     @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    private List<COrder> listOfOrders;
+    private List<Order> listOfOrders;
 
     private Boolean is_active;
     public Technology(String name, String description, Customer author) {
@@ -53,7 +52,7 @@ public class Technology {
 
     }
 
-    public void addOrderToOrdersList(COrder order) {
+    public void addOrderToOrdersList(Order order) {
         this.listOfOrders.add(order);
     }
 

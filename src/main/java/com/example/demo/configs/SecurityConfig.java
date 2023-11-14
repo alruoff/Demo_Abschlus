@@ -1,4 +1,5 @@
 package com.example.demo.configs;
+import com.example.demo.services.MainService;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+/**
+ * Общие настройки spring security
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -20,18 +25,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http // коммент для разбора
+        http
                 .authorizeRequests()
                 .antMatchers("/", "/login").permitAll()   // доступ всем
                 .antMatchers("/api/**").authenticated() // только идентиф. пользователи
-                //.antMatchers("/view").hasAnyRole("USER", "MANAGER", "ADMIN")
-                //.antMatchers( "/neworder").hasRole("MANAGER")
-                //.antMatchers("/newcustomer").hasRole("ADMIN")
-               // .antMatchers("/**").authenticated() // заходят только идентиф. пользователи
-                //.antMatchers("/users").hasAnyRole("USER")
-                //.anyRequest().permitAll() // все прочие запросы общедоступны
+
                 .and()
-                //.httpBasic() // будет basic-authentication
+
                 .formLogin()//.loginPage("/login") стандартная форма для логина .loginPage("/login")
                 .and()
                 .logout().logoutSuccessUrl("/login"); // после logout попадаем в корень
