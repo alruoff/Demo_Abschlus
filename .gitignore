@@ -31,5 +31,11 @@ local.properties
 *.bundle
 *.bundle.meta
 
+.mvn
+*mvnw
+mvnw.cmd
+*.zip
+target/
+
 # hacklist
 environment.js
