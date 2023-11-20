@@ -11,6 +11,8 @@ import com.example.demo.services.MainService;
 import com.example.demo.services.OrderService;
 import com.example.demo.services.UserService;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -35,15 +37,15 @@ public class OrderController {
      * @param principal - имя тек. пользователя
      * @return
      */
-    @PostMapping("/new")
-    public String createNewOrder(@RequestParam(name = "name") String orderName,
-                                 @RequestParam(name = "info") String info, Principal principal) {
+    @PostMapping(value = "/new") // ,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE )
+    public ResponseEntity<String> createNewOrder(@RequestParam(name = "name") String orderName,
+                                         @RequestParam(name = "info") String info, Principal principal) {
 
         User user = getUser(principal);
 
         orderService.createNewOrder(user.getCustomer(), orderName, info);
 
-        return "OK";
+        return ResponseEntity.ok().build();
     }
 
     /**

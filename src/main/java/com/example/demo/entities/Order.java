@@ -1,4 +1,5 @@
 package com.example.demo.entities;
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -50,7 +51,7 @@ public class Order {
         this.updated_at = LocalDateTime.now();
     }
 
-    public void setTechno(Technology techno) {
+    public void setTechno(@NotNull Technology techno) {
 
         this.updated_at = LocalDateTime.now();
         this.techno = techno;

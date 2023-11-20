@@ -33,3 +33,10 @@ local.properties
 
 # hacklist
 environment.js
+
+# add
+.mvn
+*mvnw
+mvnw.cmd
+*.zip
+target/
